@@ -2,15 +2,27 @@ import React, { useState } from "react";
 import Card from "../components/Card";
 import FormGroup from "../components/Form-group";
 import { useNavigate } from "react-router-dom";
+import UserService from "../app/service/UserService";
+import LocalStorageService from "../app/service/LocalStorageService";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const service = new UserService();
   const navigate = useNavigate();
 
-  const logIn = () => {
-    console.log("Email: ", email);
-    console.log("Password: ", password);
+  const logIn = async () => {
+    try {
+      const response = await service.autenticar({
+        email: email,
+        password: password,
+      });
+      LocalStorageService.addItem("user_login", response.data);
+      navigate("/home", { replace: true });
+    } catch (erro) {
+      setErrorMessage(erro.response.data);
+    }
   };
 
   const registerForm = () => {
@@ -22,6 +34,9 @@ function Login() {
       <div className="col-md-6" style={{ position: "relative", left: "300px" }}>
         <div className="bs-docs-section">
           <Card title="Login">
+            <div className="row">
+              <span> {errorMessage}</span>
+            </div>
             <div className="row">
               <div className="col-lg-12">
                 <div className="bs-component">
