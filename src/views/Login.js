@@ -4,11 +4,11 @@ import FormGroup from "../components/Form-group";
 import { useNavigate } from "react-router-dom";
 import UserService from "../app/service/UserService";
 import LocalStorageService from "../app/service/LocalStorageService";
+import { toast } from "react-toastify";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
   const service = new UserService();
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ function Login() {
       LocalStorageService.addItem("user_login", response.data);
       navigate("/home", { replace: true });
     } catch (erro) {
-      setErrorMessage(erro.response.data);
+      toast.error(erro.response.data, { theme: "colored" });
     }
   };
 
@@ -34,9 +34,6 @@ function Login() {
       <div className="col-md-6" style={{ position: "relative", left: "300px" }}>
         <div className="bs-docs-section">
           <Card title="Login">
-            <div className="row">
-              <span> {errorMessage}</span>
-            </div>
             <div className="row">
               <div className="col-lg-12">
                 <div className="bs-component">

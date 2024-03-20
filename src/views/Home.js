@@ -2,6 +2,7 @@ import React from "react";
 import UserService from "../app/service/UserService";
 import LocalStorageService from "../app/service/LocalStorageService";
 
+
 class Home extends React.Component {
   state = {
     balance: 0,

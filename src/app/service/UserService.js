@@ -12,6 +12,10 @@ class UserService extends ApiService {
   getBalancePerUser(id) {
     return this.get(`/${id}/balance`);
   }
+
+  saveRegister(user) {
+    return this.post("/save", user);
+  }
 }
 
 export default UserService;
