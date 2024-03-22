@@ -1,15 +1,32 @@
 import React from "react";
+import currencyFormatter from "currency-formatter";
 
 function ReleasesTable(props) {
-  const rows = props.releases.map((releases) => {
+  const rows = props.releases.map((release) => {
     return (
-      <tr key={releases.id}>
-        <td>{releases.description}</td>
-        <td>{releases.value}</td>
-        <td>{releases.type}</td>
-        <td>{releases.month}</td>
-        <td>{releases.status}</td>
-        <td></td>
+      <tr key={release.id}>
+        <td>{release.description}</td>
+        <td>{currencyFormatter.format(release.value, { locale: "de-DE" })}</td>
+        <td>{release.type}</td>
+        <td>{release.month}</td>
+        <td>{release.status}</td>
+        <td>
+          {" "}
+          <button
+            type="button"
+            onClick={(e) => props.edit(release)}
+            className="btn btn-success"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            onClick={(e) => props.deleteRelease(release)}
+            className="btn btn-danger"
+          >
+            Delete
+          </button>
+        </td>
       </tr>
     );
   });

@@ -7,51 +7,64 @@ import SelectMenu from "../../components/SelectMenu";
 import ReleasesTable from "./ReleasesTable";
 import LocalStorageService from "../../app/service/LocalStorageService";
 import ReleasesService from "../../app/service/ReleasesService";
+import { toast } from "react-toastify";
 
 function Releases() {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [type, setType] = useState("");
-  const [releases, setReleases] = [];
+  const [description, setDescription] = useState("");
+  const [release, setRelease] = useState([]);
   const service = new ReleasesService();
 
-  const months = [
-    { label: "Select", value: "" },
-    { label: "January", value: 1 },
-    { label: "February", value: 2 },
-    { label: "March", value: 3 },
-    { label: "April", value: 4 },
-    { label: "May", value: 5 },
-    { label: "June", value: 6 },
-    { label: "July", value: 7 },
-    { label: "August", value: 8 },
-    { label: "September", value: 9 },
-    { label: "October", value: 10 },
-    { label: "November", value: 11 },
-    { label: "December", value: 12 },
-  ];
-
-  const types = [
-    { label: "Select..", value: "" },
-    { label: "Despesa", value: "DESPESA" },
-    { label: "Receita", value: "RECEITA" },
-  ];
+  const months = service.obtainListMoths();
+  const types = service.obtainListsTypes();
 
   const search = () => {
+    if (!year) {
+      toast.error("The year field is required!", { theme: "colored" });
+    }
+
     const loginUser = LocalStorageService.obtainItem("user_login");
+    console.log(loginUser.id);
     const filterReleases = {
       year: year,
       month: month,
       type: type,
+      description: description,
       user: loginUser.id,
     };
+    console.log(filterReleases);
     service
       .search(filterReleases)
       .then((response) => {
-        setReleases(response.data);
+        if (response.data.length === 0) {
+          toast.warning("There is no data for this research", {
+            theme: "colored",
+          });
+        } else {
+          setRelease(response.data);
+        }
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const edit = (id) => {
+    console.log("edit", id);
+  };
+
+  const deleteRelease = (releases) => {
+    service
+      .releaseDelete(releases.id)
+      .then((response) => {
+        const updatedReleases = release.filter((r) => r.id !== releases.id);
+        setRelease(updatedReleases);
+        toast.success("Release deleted with success ");
+      })
+      .catch((error) => {
+        toast.error("Error to try to delete a Release");
       });
   };
 
@@ -61,7 +74,7 @@ function Releases() {
         <div className="row">
           <div className="col-md-6">
             <div className="bs-component">
-              <FormGroup label="Year" htmlfor="inputYear">
+              <FormGroup label="Year *" htmlfor="inputYear">
                 <input
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
@@ -80,6 +93,17 @@ function Releases() {
                   className="form-control"
                   list={months}
                 />
+              </FormGroup>
+
+              <FormGroup label="Description" htmlfor="inputDescription">
+                <input
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  type="text"
+                  className="form-control"
+                  id="inputYear"
+                  placeholder="Type Year "
+                ></input>
               </FormGroup>
               <FormGroup label="Type of Releases" htmlfor="inputType">
                 <SelectMenu
@@ -108,7 +132,11 @@ function Releases() {
         <div className="row">
           <div className="col-md-12">
             <div className="bs-component">
-              <ReleasesTable releases={releases} />
+              <ReleasesTable
+                releases={release}
+                edit={edit}
+                deleteRelease={deleteRelease}
+              />
             </div>
           </div>
         </div>
