@@ -22,9 +22,13 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarResponsive">
           <ul className="navbar-nav">
             <NavbarItem href="#/home" Label="Home" />
+            <NavbarItem href="#/login" Label="Login" />
             <NavbarItem href="#/register-user" Label="Users" />
             <NavbarItem href="/#consultation-releases" Label="Releases" />
-            <NavbarItem href="#/login" Label="Login" />
+            <NavbarItem
+              href="#/register-releases/:id"
+              Label="Register Releases"
+            />
           </ul>
         </div>
       </div>

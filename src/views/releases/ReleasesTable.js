@@ -14,7 +14,7 @@ function ReleasesTable(props) {
           {" "}
           <button
             type="button"
-            onClick={(e) => props.edit(release)}
+            onClick={(e) => props.edit(release.id)}
             className="btn btn-success"
           >
             Edit

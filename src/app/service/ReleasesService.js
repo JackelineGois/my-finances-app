@@ -55,4 +55,16 @@ export default class ReleasesService extends ApiService {
   releaseDelete(id) {
     return this.delete(`/${id}`);
   }
+
+  save(release) {
+    return this.post("/", release);
+  }
+
+  obtainReleases(id) {
+    return this.get(`/${id}`);
+  }
+
+  update(release) {
+    return this.put(`/${release.id}`, release);
+  }
 }

@@ -2,7 +2,6 @@ import React from "react";
 import UserService from "../app/service/UserService";
 import LocalStorageService from "../app/service/LocalStorageService";
 
-
 class Home extends React.Component {
   state = {
     balance: 0,
@@ -47,7 +46,7 @@ class Home extends React.Component {
           </a>
           <a
             className="btn btn-danger btn-lg"
-            href="https://bootswatch.com/flatly/#"
+            href="/#register-releases"
             role="button"
           >
             <i className="fa fa-users"></i> Cadastrar Lançamento
