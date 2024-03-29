@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback } from "react";
 import React from "react";
+import { useState, useEffect, useCallback } from "react";
 import Card from "../../components/Card";
 import FormGroup from "../../components/Form-group";
 import ReleasesService from "../../app/service/ReleasesService";
@@ -58,15 +57,26 @@ function RegisterReleases() {
 
   const submit = async () => {
     const loginUser = LocalStorageService.obtainItem("user_login");
+    console.log(loginUser);
+    const validateData = {
+      description: data.description,
+      year: data.year,
+      month: data.month,
+      value: data.value,
+      type: data.type,
+      user: loginUser.id,
+    };
     try {
-      await service.save({
-        description: data.description,
-        year: data.year,
-        month: data.month,
-        value: data.value,
-        type: data.type,
-        user: loginUser.id,
-      });
+      try {
+        service.validate(validateData);
+      } catch (erro) {
+        const messages = erro.messages;
+        messages.forEach((msg) => {
+          toast.error(msg);
+        });
+        return false;
+      }
+      await service.save(validateData);
       toast.success("The Release was registered successfully");
       navigate("/consultation-releases", { replace: true });
     } catch (erro) {
@@ -80,10 +90,12 @@ function RegisterReleases() {
 
   const fetchData = useCallback(async () => {
     try {
-      await axios
-        .get("http://localhost:8080/api/releases/" + id)
-        .then((res) => setData(res.data, { update: true }))
-        .catch((err) => console.log(err));
+      if (id) {
+        await axios
+          .get("http://localhost:8080/api/releases/" + id)
+          .then((res) => setData({ ...res.data, update: true }))
+          .catch((err) => console.log(err));
+      }
     } catch (error) {
       toast.warning(error.message, {
         theme: "colored",
@@ -110,104 +122,111 @@ function RegisterReleases() {
   }, [fetchData]);
 
   return (
-    <Card title={this.state.update ? "Update Releases" : "Register Releases"}>
-      <div className="row">
-        <div className="col-md-12">
-          <FormGroup id="inputDescription" label="Description *">
-            <input
-              type="text"
-              id="inputDescription"
-              className="form-control"
-              name="description"
-              value={data.description}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </div>
-      </div>
-      <div>
+    <div className="margin">
+      <Card title={data.update ? "Update Releases" : "Register Releases"}>
         <div className="row">
-          <div className="col-md-6">
-            <FormGroup id="inputYear" label="Year *">
+          <div className="col-md-12">
+            <FormGroup id="inputDescription" label="Description *">
               <input
                 type="text"
-                id="inputYear"
+                id="inputDescription"
                 className="form-control"
-                name="year"
-                value={data.year}
+                name="description"
+                value={data.description}
+                onChange={handleChange}
+              />
+            </FormGroup>
+          </div>
+        </div>
+        <div>
+          <div className="row">
+            <div className="col-md-6">
+              <FormGroup id="inputYear" label="Year *">
+                <input
+                  type="text"
+                  id="inputYear"
+                  className="form-control"
+                  name="year"
+                  value={data.year}
+                  onChange={handleChange}
+                />
+              </FormGroup>
+            </div>
+
+            <div className="col-md-6">
+              <FormGroup id="inputMonth" label="Month *">
+                <SelectMenu
+                  name="month"
+                  value={data.month}
+                  onChange={handleChange}
+                  id="inputMonth"
+                  className="form-control"
+                  list={months}
+                />
+              </FormGroup>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-4">
+            <FormGroup id="inputValue" label="Value *">
+              <input
+                type="text"
+                id="inputValue"
+                className="form-control"
+                name="value"
+                value={data.value}
                 onChange={handleChange}
               />
             </FormGroup>
           </div>
 
-          <div className="col-md-6">
-            <FormGroup id="inputMonth" label="Month *">
+          <div className="col-md-4">
+            <FormGroup id="inputType" label="Type *">
               <SelectMenu
-                name="month"
-                value={data.month}
+                name="type"
+                value={data.type}
                 onChange={handleChange}
-                id="inputMonth"
+                id="inputType"
                 className="form-control"
-                list={months}
+                list={types}
+              />
+            </FormGroup>
+          </div>
+
+          <div className="col-md-4">
+            <FormGroup id="inputStatus" label="Status">
+              <input
+                name="status"
+                value={data.status}
+                type="text"
+                id="inputValue"
+                className="form-control"
+                disabled
               />
             </FormGroup>
           </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-md-4">
-          <FormGroup id="inputValue" label="Value *">
-            <input
-              type="text"
-              id="inputValue"
-              className="form-control"
-              name="value"
-              value={data.value}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </div>
+        <br></br>
 
-        <div className="col-md-4">
-          <FormGroup id="inputType" label="Type *">
-            <SelectMenu
-              name="type"
-              value={data.type}
-              onChange={handleChange}
-              id="inputType"
-              className="form-control"
-              list={types}
-            />
-          </FormGroup>
-        </div>
+        <div className="padding">
+          {data.update ? (
+            <button onClick={submitUpdate} className="btn btn-success">
+              <i className="pi pi-spin pi-refresh"></i> Update
+            </button>
+          ) : (
+            <button onClick={submit} className="btn btn-success">
+              {" "}
+              <i className="pi pi-save"></i> Save
+            </button>
+          )}
 
-        <div className="col-md-4">
-          <FormGroup id="inputStatus" label="Status">
-            <input
-              name="status"
-              value={data.status}
-              type="text"
-              id="inputValue"
-              className="form-control"
-              disabled
-            />
-          </FormGroup>
+          <button className="btn btn-danger" onClick={cancel}>
+            <i className="pi pi-times"></i> Cancel{" "}
+          </button>
         </div>
-      </div>
-      <br></br>
-
-      <div className="col-md-6"> </div>
-      <button onClick={submit} className="btn btn-success">
-        {" "}
-        Save
-      </button>
-      <button onClick={submitUpdate} className="btn btn-success">
-        update
-      </button>
-      <button className="btn btn-danger" onClick={cancel}>
-        Cancel{" "}
-      </button>
-    </Card>
+      </Card>
+    </div>
   );
 }
 

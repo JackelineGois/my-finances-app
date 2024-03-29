@@ -11,20 +11,42 @@ function ReleasesTable(props) {
         <td>{release.month}</td>
         <td>{release.status}</td>
         <td>
+          <button
+            type="button"
+            onClick={(e) => props.updateStatus(release, "EFETIVADO")}
+            className="btn btn-success"
+            title="Efetivado"
+            disabled={release.status !== "PENDENTE"}
+          >
+            <i className="pi pi-check"></i>
+          </button>
+          <button
+            type="button"
+            onClick={(e) => props.updateStatus(release, "CANCELADO")}
+            className="btn btn-warning"
+            title="Cancelado"
+            disabled={release.status !== "PENDENTE"}
+          >
+            <i className="pi pi-times"></i>
+          </button>
+        </td>
+        <td>
           {" "}
           <button
             type="button"
             onClick={(e) => props.edit(release.id)}
-            className="btn btn-success"
+            className="btn btn-primary"
+            title="Edit"
           >
-            Edit
+            <i className="pi pi-pencil"></i>
           </button>
           <button
             type="button"
             onClick={(e) => props.deleteRelease(release)}
             className="btn btn-danger"
+            title="Delete"
           >
-            Delete
+            <i className="pi pi-trash"></i>
           </button>
         </td>
       </tr>
@@ -39,7 +61,8 @@ function ReleasesTable(props) {
           <th scope="col">Type </th>
           <th scope="col">Month </th>
           <th scope="col">Situation </th>
-          <th scope="col">Actions </th>
+          <th scope="col"> Update Situation </th>
+          <th scope="col"> Actions </th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>

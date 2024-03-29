@@ -1,4 +1,5 @@
 import ApiService from "../ApiService";
+import ErrorValidate from "../exception/ErrorValidate";
 
 export default class ReleasesService extends ApiService {
   constructor() {
@@ -52,12 +53,39 @@ export default class ReleasesService extends ApiService {
     return this.get(params);
   }
 
+  validate(release) {
+    const error = [];
+    if (!release.year) {
+      error.push("Inform Year");
+    }
+    if (!release.month) {
+      error.push("Inform Month");
+    }
+    if (!release.description) {
+      error.push("Inform Description");
+    }
+    if (!release.value) {
+      error.push("Inform Value");
+    }
+    if (!release.type) {
+      error.push("Inform type");
+    }
+
+    if (error && error.length > 0) {
+      throw new ErrorValidate(error);
+    }
+  }
+
+  updateStatus(id, status) {
+    return this.put(`/${id}/update-status`, { status });
+  }
+
   releaseDelete(id) {
     return this.delete(`/${id}`);
   }
 
   save(release) {
-    return this.post("/", release);
+    return this.post("", release);
   }
 
   obtainReleases(id) {

@@ -15,41 +15,26 @@ function RegisterUser() {
   const navigate = useNavigate();
   const service = new UserService();
 
-  const validate = () => {
-    const msgs = [];
-
-    if (!name) {
-      msgs.push("The name field is required");
-    }
-    if (!email) {
-      msgs.push("The email field is required");
-    } else if (!/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/.test(email)) {
-      msgs.push("Inform a Valid Email");
-    }
-
-    if (!password || !repeatPassword) {
-      msgs.push("Type the password 2x");
-    } else if (password !== repeatPassword) {
-      msgs.push("The password doesn't match");
-    }
-    return msgs;
-  };
-
   const register = async () => {
-    const msgs = validate();
-
-    if (msgs.length > 0) {
-      msgs.forEach((msg, index) => {
-        toast.error(msg, { theme: "colored" });
-      });
-      return false;
-    }
+    const variable = {
+      name: name,
+      email: email,
+      password: password,
+      repeatPassword: repeatPassword,
+    };
+    console.log(variable);
     try {
-      const response = await service.saveRegister({
-        name: name,
-        email: email,
-        password: password,
-      });
+      try {
+        service.validate(variable);
+      } catch (erro) {
+        const messages = erro.messages;
+        messages.forEach((msg) => {
+          toast.error(msg);
+        });
+        return false;
+      }
+
+      const response = await service.saveRegister(variable);
       toast.success("User Registered", { theme: "colored" });
       console.log(response.data);
 
@@ -64,7 +49,7 @@ function RegisterUser() {
   };
 
   return (
-    <div>
+    <div className="margin">
       {" "}
       <Card title="Register a User">
         <div className="row">
@@ -118,21 +103,23 @@ function RegisterUser() {
                   }}
                 />
               </FormGroup>
-              <button
-                onClick={register}
-                type="button"
-                className="btn btn-success"
-              >
-                Save
-              </button>
-              <button
-                onClick={cancelRegisterForm}
-                type="button"
-                className="btn btn-danger"
-              >
-                {" "}
-                Cancel{" "}
-              </button>
+              <div className="padding">
+                <button
+                  onClick={register}
+                  type="button"
+                  className="btn btn-success"
+                >
+                  <i className="pi  pi-save"></i> Save
+                </button>
+                <button
+                  onClick={cancelRegisterForm}
+                  type="button"
+                  className="btn btn-danger"
+                >
+                  {" "}
+                  <i className="pi pi-times"></i> Cancel{" "}
+                </button>
+              </div>
             </div>
           </div>
         </div>

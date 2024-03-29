@@ -1,6 +1,7 @@
 import React from "react";
 import UserService from "../app/service/UserService";
 import LocalStorageService from "../app/service/LocalStorageService";
+import { Link } from "react-router-dom";
 
 class Home extends React.Component {
   state = {
@@ -25,33 +26,36 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="jumbotron">
-        <h1 className="display-3">Bem vindo!</h1>
-        <p className="lead">Esse é seu sistema de finanças.</p>
-        <p className="lead">
-          Seu saldo para o mês atual é de R$ {this.state.balance}
-        </p>
-        <hr className="my-4" />
-        <p>
-          E essa é sua área administrativa, utilize um dos menus ou botões
-          abaixo para navegar pelo sistema.
-        </p>
-        <p className="lead">
-          <a
-            className="btn btn-primary btn-lg"
-            href="/#register-user"
-            role="button"
-          >
-            <i className="fa fa-users"></i> Cadastrar Usuário
-          </a>
-          <a
-            className="btn btn-danger btn-lg"
-            href="/#register-releases"
-            role="button"
-          >
-            <i className="fa fa-users"></i> Cadastrar Lançamento
-          </a>
-        </p>
+      <div className="margin">
+        <div className="jumbotron">
+          <h1 className="display-3">Welcome!</h1>
+          <p className="lead">This is your finance system.</p>
+          <p className="lead">
+            Your balance for the current month is $ {this.state.balance}
+          </p>
+          <hr className="my-4" />
+          <p>
+            And this is your administrative area, use one of the menus or
+            buttons below to navigate the system.
+          </p>
+          <p className="lead">
+            <Link
+              to="/#register-user"
+              className="btn btn-primary btn-lg"
+              role="button"
+            >
+              <i className="fa fa-users"></i> Register User
+            </Link>
+
+            <Link
+              to="/register-release"
+              className="btn btn-danger btn-lg"
+              role="button"
+            >
+              <i className="fa fa-users"></i> Register Releases
+            </Link>
+          </p>
+        </div>
       </div>
     );
   }

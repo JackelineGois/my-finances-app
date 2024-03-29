@@ -62,12 +62,14 @@ function Login() {
                         placeholder="Type your password"
                       />
                     </FormGroup>
-                    <button onClick={logIn} className="btn btn-success">
-                      Log In
-                    </button>
-                    <button className="btn btn-danger" onClick={registerForm}>
-                      Register
-                    </button>
+                    <div className="padding">
+                      <button onClick={logIn} className="btn btn-success">
+                        Log In
+                      </button>
+                      <button className="btn btn-danger" onClick={registerForm}>
+                        Register
+                      </button>
+                    </div>
                   </fieldset>
                 </div>
               </div>

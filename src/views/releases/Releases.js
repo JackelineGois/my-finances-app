@@ -1,5 +1,5 @@
-import { useState } from "react";
 import React from "react";
+import { useState } from "react";
 import Card from "../../components/Card";
 import FormGroup from "../../components/Form-group";
 import SelectMenu from "../../components/SelectMenu";
@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { useNavigate } from "react-router-dom";
+import "../../css/custom.css";
 
 function Releases() {
   const [year, setYear] = useState("");
@@ -53,6 +54,25 @@ function Releases() {
           console.log(error);
         });
     }
+  };
+
+  const updateStatus = (releaseToUpdate, status) => {
+    service
+      .updateStatus(releaseToUpdate.id, status)
+      .then((response) => {
+        const updatedReleases = release.map((release) => {
+          if (release.id === releaseToUpdate.id) {
+            return { ...release, status: status };
+          }
+          return release;
+        });
+
+        setRelease(updatedReleases);
+        toast.success("Status Updated Successfully");
+      })
+      .catch((error) => {
+        toast.error("Failed to update status: " + error.message);
+      });
   };
 
   const openConfirm = (releases) => {
@@ -108,11 +128,11 @@ function Releases() {
   };
 
   const registerFormReleases = () => {
-    navigate("/register-releases", { replace: true });
+    navigate("/register-release", { replace: true });
   };
 
   return (
-    <div>
+    <div className="margin">
       <Card title="Consultations Releases">
         <div className="row">
           <div className="col-md-6">
@@ -158,20 +178,22 @@ function Releases() {
                 />
               </FormGroup>
               <br></br>
-              <button
-                type="button"
-                onClick={search}
-                className="btn btn-success"
-              >
-                Search
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={registerFormReleases}
-              >
-                Register
-              </button>
+              <div className="button">
+                <button
+                  type="button"
+                  onClick={search}
+                  className="btn btn-success"
+                >
+                  <i className="pi pi-search"></i> Search
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={registerFormReleases}
+                >
+                  <i className="pi pi-plus"></i> Register
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -183,6 +205,7 @@ function Releases() {
                 releases={release}
                 edit={edit}
                 deleteRelease={openConfirm}
+                updateStatus={updateStatus}
               />
             </div>
           </div>

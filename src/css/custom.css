@@ -245,3 +245,19 @@ pre {
     text-align: center;
   }
 }
+
+.btn {
+  margin-right: 5px;
+}
+
+.form-group {
+  padding-top: 10px;
+}
+
+.padding {
+  padding-top: 10px;
+}
+
+.margin {
+  margin: 30px;
+}
