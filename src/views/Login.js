@@ -1,16 +1,18 @@
 import React, { useState } from "react";
+import { useContext } from "react";
 import Card from "../components/Card";
 import FormGroup from "../components/Form-group";
 import { useNavigate } from "react-router-dom";
 import UserService from "../app/service/UserService";
-import LocalStorageService from "../app/service/LocalStorageService";
 import { toast } from "react-toastify";
+import { AuthContext } from "../main/AuthenticationProvider";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const service = new UserService();
   const navigate = useNavigate();
+  const { beginSession } = useContext(AuthContext);
 
   const logIn = async () => {
     try {
@@ -18,7 +20,8 @@ function Login() {
         email: email,
         password: password,
       });
-      LocalStorageService.addItem("user_login", response.data);
+      beginSession(response.data);
+
       navigate("/home", { replace: true });
     } catch (erro) {
       toast.error(erro.response.data, { theme: "colored" });

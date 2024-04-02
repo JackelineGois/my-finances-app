@@ -1,11 +1,19 @@
 import React from "react";
 import NavbarItem from "./NavbarItem";
+import { useContext } from "react";
+import { AuthContext } from "../main/AuthenticationProvider";
 
 function Navbar() {
+  const { isAuthenticated, finishSession } = useContext(AuthContext);
+
+  const logout = (user) => {
+    finishSession(user);
+  };
+
   return (
     <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
       <div className="container">
-        <a href="https://bootswatch.com/" class="navbar-brand">
+        <a href="/home" className="navbar-brand">
           Minhas Finanças
         </a>
         <button
@@ -21,10 +29,23 @@ function Navbar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarResponsive">
           <ul className="navbar-nav">
-            <NavbarItem href="/home" Label="Home" />
-            <NavbarItem href="/login" Label="Login" />
-            <NavbarItem href="/consultation-releases" Label="Releases" />
-            <NavbarItem href="/register-release" Label="Register Releases" />
+            <NavbarItem render={isAuthenticated} href="/home" Label="Home" />
+            <NavbarItem
+              render={isAuthenticated}
+              href="/consultation-releases"
+              Label="Releases"
+            />
+            <NavbarItem
+              render={isAuthenticated}
+              href="/register-release"
+              Label="Register Releases"
+            />
+            <NavbarItem
+              render={isAuthenticated}
+              onClick={logout}
+              href="/login"
+              Label="Logout"
+            />
           </ul>
         </div>
       </div>

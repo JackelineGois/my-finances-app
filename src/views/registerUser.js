@@ -49,7 +49,7 @@ function RegisterUser() {
   };
 
   return (
-    <div className="margin">
+    <div>
       {" "}
       <Card title="Register a User">
         <div className="row">

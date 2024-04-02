@@ -132,100 +132,98 @@ function Releases() {
   };
 
   return (
-    <div className="margin">
-      <Card title="Consultations Releases">
-        <div className="row">
-          <div className="col-md-6">
-            <div className="bs-component">
-              <FormGroup label="Year *" htmlfor="inputYear">
-                <input
-                  value={year}
-                  onChange={(e) => setYear(e.target.value)}
-                  type="text"
-                  className="form-control"
-                  id="inputYear"
-                  placeholder="Type Year "
-                ></input>
-              </FormGroup>
+    <Card title="Consultations Releases">
+      <div className="row">
+        <div className="col-md-6">
+          <div className="bs-component">
+            <FormGroup label="Year *" htmlfor="inputYear">
+              <input
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+                type="text"
+                className="form-control"
+                id="inputYear"
+                placeholder="Type Year "
+              ></input>
+            </FormGroup>
 
-              <FormGroup label="Month" htmlfor="inputMonth">
-                <SelectMenu
-                  value={month}
-                  onChange={(e) => setMonth(e.target.value)}
-                  id="inputMonth"
-                  className="form-control"
-                  list={months}
-                />
-              </FormGroup>
-
-              <FormGroup label="Description" htmlfor="inputDescription">
-                <input
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  type="text"
-                  className="form-control"
-                  id="inputYear"
-                  placeholder="Type Year "
-                ></input>
-              </FormGroup>
-              <FormGroup label="Type of Releases" htmlfor="inputType">
-                <SelectMenu
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                  id="inputType"
-                  className="form-control"
-                  list={types}
-                />
-              </FormGroup>
-              <br></br>
-              <div className="button">
-                <button
-                  type="button"
-                  onClick={search}
-                  className="btn btn-success"
-                >
-                  <i className="pi pi-search"></i> Search
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={registerFormReleases}
-                >
-                  <i className="pi pi-plus"></i> Register
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br></br>
-        <div className="row">
-          <div className="col-md-12">
-            <div className="bs-component">
-              <ReleasesTable
-                releases={release}
-                edit={edit}
-                deleteRelease={openConfirm}
-                updateStatus={updateStatus}
+            <FormGroup label="Month" htmlfor="inputMonth">
+              <SelectMenu
+                value={month}
+                onChange={(e) => setMonth(e.target.value)}
+                id="inputMonth"
+                className="form-control"
+                list={months}
               />
+            </FormGroup>
+
+            <FormGroup label="Description" htmlfor="inputDescription">
+              <input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                type="text"
+                className="form-control"
+                id="inputYear"
+                placeholder="Type Year "
+              ></input>
+            </FormGroup>
+            <FormGroup label="Type of Releases" htmlfor="inputType">
+              <SelectMenu
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                id="inputType"
+                className="form-control"
+                list={types}
+              />
+            </FormGroup>
+            <br></br>
+            <div className="button">
+              <button
+                type="button"
+                onClick={search}
+                className="btn btn-success"
+              >
+                <i className="pi pi-search"></i> Search
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={registerFormReleases}
+              >
+                <i className="pi pi-plus"></i> Register
+              </button>
             </div>
           </div>
         </div>
-        <div>
-          <div>
-            <Dialog
-              header="Confirm Delete"
-              visible={showConfirmDialog}
-              style={{ width: "50vw" }}
-              modal={true}
-              onHide={() => setShowConfirmDialog(false)}
-              footer={confirmDialogFooter}
-            >
-              <p className="m-0">Do you really want to delete the release?</p>
-            </Dialog>
+      </div>
+      <br></br>
+      <div className="row">
+        <div className="col-md-12">
+          <div className="bs-component">
+            <ReleasesTable
+              releases={release}
+              edit={edit}
+              deleteRelease={openConfirm}
+              updateStatus={updateStatus}
+            />
           </div>
         </div>
-      </Card>
-    </div>
+      </div>
+      <div>
+        <div>
+          <Dialog
+            header="Confirm Delete"
+            visible={showConfirmDialog}
+            style={{ width: "50vw" }}
+            modal={true}
+            onHide={() => setShowConfirmDialog(false)}
+            footer={confirmDialogFooter}
+          >
+            <p className="m-0">Do you really want to delete the release?</p>
+          </Dialog>
+        </div>
+      </div>
+    </Card>
   );
 }
 

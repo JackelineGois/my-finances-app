@@ -8,6 +8,10 @@ export default class LocalStorageService {
     return JSON.parse(item);
   }
 
+  static hasAuthUser(key) {
+    return localStorage.getItem(key);
+  }
+
   static removeItemAuth(key) {
     localStorage.removeItem(key);
   }

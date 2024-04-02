@@ -122,7 +122,7 @@ function RegisterReleases() {
   }, [fetchData]);
 
   return (
-    <div className="margin">
+    <div>
       <Card title={data.update ? "Update Releases" : "Register Releases"}>
         <div className="row">
           <div className="col-md-12">

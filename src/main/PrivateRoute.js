@@ -1,28 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-
-import LocalStorageService from "../app/service/LocalStorageService";
-import { useState, useEffect } from "react";
+import { AuthContext } from "./AuthenticationProvider";
+import { useContext } from "react";
 
 const PrivateRoute = ({ element: Component, ...rest }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [checkedAuth, setCheckedAuth] = useState(false);
+  const { authenticatedUser } = useContext(AuthContext);
 
-  useEffect(() => {
-    const userLogin = LocalStorageService.obtainItem("user_login");
-    const isAuth =
-      !!userLogin &&
-      typeof userLogin === "object" &&
-      Object.keys(userLogin).length > 0;
-    setIsAuthenticated(isAuth);
-    setCheckedAuth(true);
-  }, []);
-
-  if (!checkedAuth) {
-    return null;
-  }
-
-  return isAuthenticated ? (
+  return authenticatedUser ? (
     <Component {...rest} />
   ) : (
     <Navigate to="/login" replace />
