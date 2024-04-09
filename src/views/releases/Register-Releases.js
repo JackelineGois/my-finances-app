@@ -92,7 +92,7 @@ function RegisterReleases() {
     try {
       if (id) {
         await axios
-          .get("http://localhost:8080/api/releases/" + id)
+          .get("http://34.227.197.89:8080/api/releases/" + id)
           .then((res) => setData({ ...res.data, update: true }))
           .catch((err) => console.log(err));
       }

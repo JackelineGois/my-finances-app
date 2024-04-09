@@ -40,6 +40,7 @@ function RegisterUser() {
 
       navigate("/login", { replace: true });
     } catch (erro) {
+      console.log(erro);
       toast.error(erro.response.data, { theme: "colored" });
     }
   };
