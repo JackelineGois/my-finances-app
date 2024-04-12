@@ -263,3 +263,9 @@ pre {
   justify-content: center;
   align-items: center;
 }
+
+@media (max-width: 822px) {
+  .table-container {
+    overflow-x: auto; /* Adiciona uma barra de rolagem horizontal para a tabela */
+  }
+}

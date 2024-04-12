@@ -197,18 +197,16 @@ function Releases() {
         </div>
       </div>
       <br></br>
-      <div className="row">
-        <div className="col-md-12">
-          <div className="bs-component">
-            <ReleasesTable
-              releases={release}
-              edit={edit}
-              deleteRelease={openConfirm}
-              updateStatus={updateStatus}
-            />
-          </div>
-        </div>
+
+      <div className="table-container">
+        <ReleasesTable
+          releases={release}
+          edit={edit}
+          deleteRelease={openConfirm}
+          updateStatus={updateStatus}
+        />
       </div>
+
       <div>
         <div>
           <Dialog

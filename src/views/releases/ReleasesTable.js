@@ -53,7 +53,7 @@ function ReleasesTable(props) {
     );
   });
   return (
-    <table className="table table-hover">
+    <table className="table table-hover ">
       <thead>
         <tr>
           <th scope="col">Description </th>
@@ -61,7 +61,7 @@ function ReleasesTable(props) {
           <th scope="col">Type </th>
           <th scope="col">Month </th>
           <th scope="col">Situation </th>
-          <th scope="col"> Update Situation </th>
+          <th scope="col"> Update </th>
           <th scope="col"> Actions </th>
         </tr>
       </thead>
