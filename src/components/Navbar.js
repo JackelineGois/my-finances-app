@@ -22,23 +22,23 @@ function Navbar() {
         <a href="/home" className="navbar-brand">
           Minhas Finanças
         </a>
-        <button
-          className="navbar-toggler hidden"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarResponsive"
-          aria-controls="navbarResponsive"
-          aria-expanded={!collapse}
-          aria-label="Toggle navigation"
-          onClick={toggleNavbar}
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        {isAuthenticated ? (
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarResponsive"
+            aria-controls="navbarResponsive"
+            aria-expanded={!collapse}
+            aria-label="Toggle navigation"
+            onClick={toggleNavbar}
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+        ) : null}
 
         <div
-          className={`collapse navbar-collapse ${collapse ? "" : "show"} ${
-            isAuthenticated ? "" : "hidden"
-          }`}
+          className={`collapse navbar-collapse ${!collapse ? "show" : ""} `}
           id="navbarResponsive"
         >
           <ul className="navbar-nav">

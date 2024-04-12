@@ -258,6 +258,8 @@ pre {
   padding-top: 10px;
 }
 
-.hidden {
-  display: none;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
