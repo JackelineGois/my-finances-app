@@ -16,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Login />,
+    element: <RedirectToHomeIfAuthenticated element={Login} />,
   },
   { path: "/register-user", element: <RegisterUser /> },
   {

@@ -2,9 +2,15 @@ import React from "react";
 import NavbarItem from "./NavbarItem";
 import { useContext } from "react";
 import { AuthContext } from "../main/AuthenticationProvider";
+import { useState } from "react";
 
 function Navbar() {
   const { isAuthenticated, finishSession } = useContext(AuthContext);
+  const [collapse, setCollapsed] = useState(true);
+
+  const toggleNavbar = () => {
+    setCollapsed(!collapse);
+  };
 
   const logout = (user) => {
     finishSession(user);
@@ -17,17 +23,24 @@ function Navbar() {
           Minhas Finanças
         </a>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler hidden"
           type="button"
           data-toggle="collapse"
           data-target="#navbarResponsive"
           aria-controls="navbarResponsive"
-          aria-expanded="false"
+          aria-expanded={!collapse}
           aria-label="Toggle navigation"
+          onClick={toggleNavbar}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarResponsive">
+
+        <div
+          className={`collapse navbar-collapse ${collapse ? "" : "show"} ${
+            isAuthenticated ? "" : "hidden"
+          }`}
+          id="navbarResponsive"
+        >
           <ul className="navbar-nav">
             <NavbarItem render={isAuthenticated} href="/home" Label="Home" />
             <NavbarItem
@@ -43,7 +56,7 @@ function Navbar() {
             <NavbarItem
               render={isAuthenticated}
               onClick={logout}
-              href="/login"
+              href="/"
               Label="Logout"
             />
           </ul>

@@ -4,13 +4,11 @@ export const USUARIO_LOGIN = "user_login";
 
 export default class AuthService {
   static removeAuthUser() {
-    const logout = LocalStorageService.removeItemAuth(USUARIO_LOGIN);
-    console.log(logout);
+    LocalStorageService.removeItemAuth(USUARIO_LOGIN);
   }
 
   static isAuthenticatedUser() {
     const auth = LocalStorageService.hasAuthUser(USUARIO_LOGIN);
-    console.log(auth);
     return auth !== null;
   }
 

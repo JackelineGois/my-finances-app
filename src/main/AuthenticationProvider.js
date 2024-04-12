@@ -30,8 +30,6 @@ const AuthProvider = ({ children }) => {
     finishSession,
   };
 
-  console.log(authenticatedUser, isAuthenticated);
-
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );

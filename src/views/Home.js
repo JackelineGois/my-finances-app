@@ -45,14 +45,6 @@ class Home extends React.Component {
         </p>
         <p className="lead">
           <Link
-            to="/#register-user"
-            className="btn btn-primary btn-lg"
-            role="button"
-          >
-            <i className="fa fa-users"></i> Register User
-          </Link>
-
-          <Link
             to="/register-release"
             className="btn btn-danger btn-lg"
             role="button"
